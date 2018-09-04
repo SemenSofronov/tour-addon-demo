@@ -24,15 +24,18 @@ public class ProductBrowse extends AbstractLookup {
 
         createTour();
 
-        TourStartAction tourStartAction = TourStartAction.create(tour);
-        tourStartAction.setSettingsEnabled(false);
-        tourStartAction.actionPerform(this);
+        startTour();
     }
 
     protected void createTour() {
-        String file = Objects.requireNonNull(resources
-                .getResourceAsString("com/company/touraddondemo/web/product/productBrowseTour.json"));
+        String file = resources.getResourceAsString("com/company/touraddondemo/web/product/productBrowseTour.json");
         TourParser tourParser = AppBeans.get(TourParser.class);
         tour = tourParser.parseTour(file, getMessagesPack(), this);
+    }
+
+    public void startTour() {
+        TourStartAction tourStartAction = TourStartAction.create(tour);
+        tourStartAction.setSettingsEnabled(false);
+        tourStartAction.actionPerform(this);
     }
 }
