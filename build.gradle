@@ -57,7 +57,7 @@ configure([globalModule, coreModule, webModule]) {
     apply(plugin: 'cuba')
 
     dependencies {
-        testCompile('junit:junit:4.12')
+        compile group: 'com.google.guava', name: 'guava', version: '25.0-jre'
     }
 
     task sourceJar(type: Jar) {
@@ -132,6 +132,17 @@ configure(webModule) {
     dependencies {
         provided(servletApi)
         compile(globalModule)
+
+        testCompile('junit:junit:4.12')
+
+        //the library provides an ability to access web-services, JMX and etc.
+        testCompile('com.haulmont.masquerade:masquerade-connector:1.0.6')
+
+        //the library for the UI testing
+        testCompile('com.haulmont.masquerade:masquerade-web:1.0.6')
+
+        // enable logging
+        testCompile('org.slf4j:jul-to-slf4j:1.7.25')
 
     }
     
