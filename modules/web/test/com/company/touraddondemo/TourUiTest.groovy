@@ -43,10 +43,6 @@ class TourUiTest {
 
     @Test
     void goThroughEditorTour() {
-        QueryRunner runner = new QueryRunner()
-        runner.update()
-
-        executeSql("delete from SEC_USER_SETTING")
         $(withText("Обучение"))
                 .shouldHave(text("Обучение началось!"))
                 .closest(".shepherd-content")
