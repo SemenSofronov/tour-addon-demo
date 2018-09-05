@@ -2,7 +2,7 @@ package com.company.touraddondemo
 
 import com.company.touraddondemo.ui.LoginWindow
 import com.company.touraddondemo.ui.ProductBrowser
-import com.haulmont.bali.db.QueryRunner
+import com.company.touraddondemo.ui.ProductEdit
 import com.haulmont.masquerade.components.AppMenu
 import org.junit.Assert
 import org.junit.Before
@@ -12,6 +12,7 @@ import static com.codeborne.selenide.Condition.text
 import static com.codeborne.selenide.Selectors.*
 import static com.codeborne.selenide.Selenide.*
 import static com.haulmont.masquerade.Components._$
+import static com.company.touraddondemo.util.UiTestManager.executeSql
 
 class TourUiTest {
 
@@ -43,6 +44,8 @@ class TourUiTest {
 
     @Test
     void goThroughEditorTour() {
+        clearDb()
+
         $(withText("Обучение"))
                 .shouldHave(text("Обучение началось!"))
                 .closest(".shepherd-content")
@@ -74,6 +77,30 @@ class TourUiTest {
     }
 
     @Test
+    void goThroughEditorTourTwice() {
+        clearDb()
+
+        $(withText("Обучение"))
+                .shouldHave(text("Обучение началось!"))
+                .closest(".shepherd-content")
+
+        _$(ProductBrowser).createBtn.click()
+
+        $(withText("Экран"))
+                .shouldHave(text("Экран редактирования"))
+                .closest(".shepherd-content")
+
+
+        _$(ProductEdit).windowClose.click()
+
+        _$(ProductBrowser).createBtn.click()
+
+        Assert.assertFalse($(byClassName(".shepherd-content")).exists())
+
+        close()
+    }
+
+    @Test
     void checkCloseIcon() {
         def stepContent = $(withText("Обучение"))
                 .shouldHave(text("Обучение началось!"))
@@ -85,7 +112,6 @@ class TourUiTest {
         Assert.assertFalse($(byClassName(".shepherd-content")).exists())
 
         close()
-
     }
 
     @Test
@@ -116,7 +142,6 @@ class TourUiTest {
                 .closest(".shepherd-content")
 
         close()
-
     }
 
     @Test
@@ -167,6 +192,9 @@ class TourUiTest {
         Assert.assertFalse($(byClassName(".shepherd-content")).exists())
 
         close()
+    }
 
+    def clearDb() {
+        executeSql("delete from SEC_USER_SETTING")
     }
 }
