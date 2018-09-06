@@ -1,11 +1,9 @@
 package com.company.touraddondemo
 
-import com.codeborne.selenide.Selenide
 import com.company.touraddondemo.rules.DefaultCleanup
 import com.company.touraddondemo.ui.LoginWindow
 import com.company.touraddondemo.ui.ProductBrowser
 import com.haulmont.masquerade.components.AppMenu
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
