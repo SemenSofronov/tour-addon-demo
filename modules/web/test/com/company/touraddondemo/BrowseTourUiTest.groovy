@@ -18,7 +18,7 @@ import static com.codeborne.selenide.Selenide.$
 import static com.codeborne.selenide.Selenide.open
 import static com.haulmont.masquerade.Components._$
 
-class BrowseTourUiTest extends BaseTest{
+class BrowseTourUiTest{
 
     @Before
     void login() {
@@ -33,7 +33,7 @@ class BrowseTourUiTest extends BaseTest{
     }
 
     @Rule
-    public TestRule defaultLogin = new DefaultCleanup()
+    public TestRule defaultCleanup = new DefaultCleanup()
 
     @Test
     void checkCancelButton() {
@@ -146,10 +146,5 @@ class BrowseTourUiTest extends BaseTest{
                 .click()
 
         $(byClassName(".shepherd-content")).shouldNot(exist)
-    }
-
-    @After
-    void close() {
-        Selenide.close()
     }
 }

@@ -57,28 +57,4 @@ public class UiTestManager {
             db.close();
         }
     }
-
-    public static void executeSqlScript(String sqlPath) throws SQLException, IOException {
-        InputStream sqlStream = UiTestManager.class.getResourceAsStream(sqlPath);
-        String sql = IOUtils.toString(sqlStream, StandardCharsets.UTF_8.name());
-
-        Sql db = getDb();
-        try {
-            db.execute(sql);
-        } finally {
-            db.close();
-        }
-    }
-
-    public static void unlockAll() throws IOException {
-        new ServerSideHelper(getServiceUrl()).unlockAll();
-    }
-
-    public static void reloadDynamicAttributesCache() throws IOException {
-        new ServerSideHelper(getServiceUrl()).reloadDynamicAttributesCache();
-    }
-
-    public static void reloadEntityLog() throws IOException {
-        new ServerSideHelper(getServiceUrl()).reloadEntityLog();
-    }
 }

@@ -5,7 +5,6 @@
 package com.company.touraddondemo.rules
 
 import com.company.touraddondemo.jmx.UiTestSupport
-import com.company.touraddondemo.util.UiTestManager
 import com.haulmont.masquerade.Connectors
 import org.junit.rules.TestRule
 import org.junit.runner.Description
@@ -38,8 +37,5 @@ class DefaultCleanup implements TestRule {
 
         Connectors.jmx(UiTestSupport.class)
                 .killAllSessions()
-
-        UiTestManager.reloadEntityLog()
-        UiTestManager.unlockAll()
     }
 }

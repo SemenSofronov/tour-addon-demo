@@ -1,12 +1,10 @@
 package com.company.touraddondemo
 
-import com.codeborne.selenide.Selenide
 import com.company.touraddondemo.rules.DefaultCleanup
 import com.company.touraddondemo.ui.LoginWindow
 import com.company.touraddondemo.ui.ProductBrowser
 import com.company.touraddondemo.ui.ProductEdit
 import com.haulmont.masquerade.components.AppMenu
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,8 +20,8 @@ import static com.haulmont.masquerade.Components._$
 
 class EditorTourUiTest{
 
-//    @Rule
-//    public TestRule defaultCleanup = new DefaultCleanup()
+    @Rule
+    public TestRule defaultCleanup = new DefaultCleanup()
 
     @Before
     void login() {
@@ -95,10 +93,5 @@ class EditorTourUiTest{
         _$(ProductBrowser).createBtn.click()
 
         $(byClassName(".shepherd-content")).shouldNot(exist)
-    }
-
-    @After
-    void close() {
-        Selenide.close()
     }
 }
