@@ -1,20 +1,24 @@
 package com.company.touraddondemo
 
+import com.codeborne.selenide.Selenide
+import com.company.touraddondemo.rules.DefaultCleanup
 import com.company.touraddondemo.ui.LoginWindow
 import com.company.touraddondemo.ui.ProductBrowser
-import com.company.touraddondemo.ui.ProductEdit
 import com.haulmont.masquerade.components.AppMenu
-import org.junit.Assert
+import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 
+import static com.codeborne.selenide.Condition.exist
 import static com.codeborne.selenide.Condition.text
 import static com.codeborne.selenide.Selectors.*
-import static com.codeborne.selenide.Selenide.*
+import static com.codeborne.selenide.Selenide.$
+import static com.codeborne.selenide.Selenide.open
 import static com.haulmont.masquerade.Components._$
-import static com.company.touraddondemo.util.UiTestManager.executeSql
 
-class TourUiTest {
+class BrowseTourUiTest extends BaseTest{
 
     @Before
     void login() {
@@ -28,76 +32,20 @@ class TourUiTest {
         _$(AppMenu).openItem('application-touraddondemo', 'touraddondemo$Product.browse')
     }
 
+    @Rule
+    public TestRule defaultLogin = new DefaultCleanup()
+
     @Test
     void checkCancelButton() {
         def stepContent = $(withText("Обучение"))
                 .shouldHave(text("Обучение началось!"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Отмена"))
                 .click()
 
-        Assert.assertFalse($(byClassName(".shepherd-content")).exists())
-
-        close()
-    }
-
-    @Test
-    void goThroughEditorTour() {
-        clearDb()
-
-        $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
-                .closest(".shepherd-content")
-
-        _$(ProductBrowser).createBtn.click()
-
-        def stepContent = $(withText("Экран"))
-                .shouldHave(text("Экран редактирования"))
-                .closest(".shepherd-content")
-
-        stepContent.find(withText("Далее"))
-                .click()
-
-        stepContent = $(byText("Сгруппированные поля"))
-                .closest(".shepherd-content")
-
-        stepContent.find(withText("Далее"))
-                .click()
-
-        stepContent = $(byText("Действия экрана"))
-                .closest(".shepherd-content")
-
-        stepContent.find(withText("Завершить"))
-                .click()
-
-        Assert.assertFalse($(byClassName(".shepherd-content")).exists())
-
-        close()
-    }
-
-    @Test
-    void goThroughEditorTourTwice() {
-        clearDb()
-
-        $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
-                .closest(".shepherd-content")
-
-        _$(ProductBrowser).createBtn.click()
-
-        $(withText("Экран"))
-                .shouldHave(text("Экран редактирования"))
-                .closest(".shepherd-content")
-
-
-        _$(ProductEdit).windowClose.click()
-
-        _$(ProductBrowser).createBtn.click()
-
-        Assert.assertFalse($(byClassName(".shepherd-content")).exists())
-
-        close()
+        $(byClassName(".shepherd-content")).shouldNot(exist)
     }
 
     @Test
@@ -105,13 +53,12 @@ class TourUiTest {
         def stepContent = $(withText("Обучение"))
                 .shouldHave(text("Обучение началось!"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(byClassName("shepherd-cancel-link"))
                 .click()
 
-        Assert.assertFalse($(byClassName(".shepherd-content")).exists())
-
-        close()
+        $(byClassName(".shepherd-content")).shouldNot(exist)
     }
 
     @Test
@@ -119,18 +66,21 @@ class TourUiTest {
         def stepContent = $(withText("Обучение"))
                 .shouldHave(text("Обучение началось!"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Далее"))
                 .click()
 
         stepContent = $(byText("Кнопка создания"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Далее"))
                 .click()
 
         stepContent = $(byText("Кнопка редактирования"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Далее"))
                 .click()
@@ -140,8 +90,7 @@ class TourUiTest {
         $(withText("Обучение"))
                 .shouldHave(text("Обучение началось!"))
                 .closest(".shepherd-content")
-
-        close()
+                .should(exist)
     }
 
     @Test
@@ -149,52 +98,58 @@ class TourUiTest {
         def stepContent = $(withText("Обучение"))
                 .shouldHave(text("Обучение началось!"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Далее"))
                 .click()
 
         stepContent = $(byText("Кнопка создания"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Далее"))
                 .click()
 
         stepContent = $(byText("Кнопка редактирования"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Далее"))
                 .click()
 
         stepContent = $(byText("Кнопка удаления"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Далее"))
                 .click()
 
         stepContent = $(byText("Панель фильтрации"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Назад"))
                 .click()
 
         stepContent = $(byText("Кнопка удаления"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Далее"))
                 .click()
 
         stepContent = $(byText("Панель фильтрации"))
                 .closest(".shepherd-content")
+                .should(exist)
 
         stepContent.find(withText("Завершить"))
                 .click()
 
-        Assert.assertFalse($(byClassName(".shepherd-content")).exists())
-
-        close()
+        $(byClassName(".shepherd-content")).shouldNot(exist)
     }
 
-    def clearDb() {
-        executeSql("delete from SEC_USER_SETTING")
+    @After
+    void close() {
+        Selenide.close()
     }
 }

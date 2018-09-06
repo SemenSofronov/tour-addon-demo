@@ -4,6 +4,7 @@
 
 package com.company.touraddondemo.util;
 
+import com.company.touraddondemo.jmx.UiTestSupport;
 import groovy.sql.Sql;
 import org.apache.commons.io.IOUtils;
 
@@ -14,9 +15,27 @@ import java.sql.SQLException;
 
 public class UiTestManager {
 
+    private static final String BASE_URL = "http://localhost:8080/app";
     private static final String DB_CONNECTION_URL = "jdbc:postgresql://localhost/touraddondemo";
 
     private static SingleConnectionDataSource cachedDatasource;
+
+    /**
+     * @deprecated Use standard selenide.baseUrl system property
+     */
+    @Deprecated
+    public static String getBaseUrl() {
+        return System.getProperty("cuba.testui.baseUrl", BASE_URL);
+    }
+
+    /**
+     * @deprecated Use masquerade connector and JMX {@link UiTestSupport} instead.
+     */
+    @Deprecated
+    public static String getServiceUrl() {
+        return System.getProperty("cuba.testui.serviceUrl", BASE_URL);
+    }
+
 
     public static Sql getDb() throws SQLException {
         if (cachedDatasource == null) {
@@ -49,5 +68,17 @@ public class UiTestManager {
         } finally {
             db.close();
         }
+    }
+
+    public static void unlockAll() throws IOException {
+        new ServerSideHelper(getServiceUrl()).unlockAll();
+    }
+
+    public static void reloadDynamicAttributesCache() throws IOException {
+        new ServerSideHelper(getServiceUrl()).reloadDynamicAttributesCache();
+    }
+
+    public static void reloadEntityLog() throws IOException {
+        new ServerSideHelper(getServiceUrl()).reloadEntityLog();
     }
 }
