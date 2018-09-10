@@ -18,7 +18,7 @@ public class SingleConnectionDataSource implements DataSource {
     private String user;
     private String password;
 
-    public SingleConnectionDataSource(String url, String user, String password) throws SQLException {
+    public SingleConnectionDataSource(String url, String user, String password) {
         this.url = url;
         this.user = user;
         this.password = password;
@@ -35,20 +35,20 @@ public class SingleConnectionDataSource implements DataSource {
     }
 
     @Override
-    public PrintWriter getLogWriter() throws SQLException {
+    public PrintWriter getLogWriter() {
         return new PrintWriter(System.out);
     }
 
     @Override
-    public void setLogWriter(PrintWriter out) throws SQLException {
+    public void setLogWriter(PrintWriter out) {
     }
 
     @Override
-    public void setLoginTimeout(int seconds) throws SQLException {
+    public void setLoginTimeout(int seconds) {
     }
 
     @Override
-    public int getLoginTimeout() throws SQLException {
+    public int getLoginTimeout() {
         return 0;
     }
 
@@ -58,12 +58,12 @@ public class SingleConnectionDataSource implements DataSource {
     }
 
     @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
+    public <T> T unwrap(Class<T> iface) {
         return null;
     }
 
     @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+    public boolean isWrapperFor(Class<?> iface) {
         return false;
     }
 }

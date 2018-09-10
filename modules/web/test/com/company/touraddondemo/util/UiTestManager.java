@@ -37,7 +37,7 @@ public class UiTestManager {
     }
 
 
-    public static Sql getDb() throws SQLException {
+    public static Sql getDb() {
         if (cachedDatasource == null) {
             String dbUrl = System.getProperty("cuba.testui.dbUrl", DB_CONNECTION_URL);
             String user = System.getProperty("cuba.testui.dbUser", "postgres");

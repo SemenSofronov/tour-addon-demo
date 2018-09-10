@@ -11,7 +11,6 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 import static com.codeborne.selenide.Condition.exist
-import static com.codeborne.selenide.Condition.text
 import static com.codeborne.selenide.Selectors.*
 import static com.codeborne.selenide.Selenide.$
 import static com.codeborne.selenide.Selenide.open
@@ -28,6 +27,10 @@ class EditorTourUiTest{
         // open URL of an application
         open("http://localhost:8080/app")
 
+        _$(LoginWindow.class).localesSelect
+                .openOptionsPopup()
+                .select('English')
+
         // login to the application
         _$(LoginWindow.class).loginButton.click()
 
@@ -42,33 +45,31 @@ class EditorTourUiTest{
 
     @Test
     void goThroughEditorTour() {
-        $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
+        $(withText("started"))
                 .closest(".shepherd-content")
                 .should(exist)
 
         _$(ProductBrowser).createBtn.click()
 
-        def stepContent = $(withText("Экран"))
-                .shouldHave(text("Экран редактирования"))
+        def stepContent = $(withText("Editor"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Сгруппированные поля"))
+        stepContent = $(byText("Field group"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Действия экрана"))
+        stepContent = $(withText("Window"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Завершить"))
+        stepContent.find(withText("Finish"))
                 .click()
 
         $(byClassName(".shepherd-content")).shouldNot(exist)
@@ -76,15 +77,13 @@ class EditorTourUiTest{
 
     @Test
     void goThroughEditorTourTwice() {
-        $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
+        $(withText("started"))
                 .closest(".shepherd-content")
                 .should(exist)
 
         _$(ProductBrowser).createBtn.click()
 
-        $(withText("Экран"))
-                .shouldHave(text("Экран редактирования"))
+        $(withText("Editor"))
                 .closest(".shepherd-content")
                 .should(exist)
 

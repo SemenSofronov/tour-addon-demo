@@ -10,18 +10,21 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 import static com.codeborne.selenide.Condition.exist
-import static com.codeborne.selenide.Condition.text
 import static com.codeborne.selenide.Selectors.*
 import static com.codeborne.selenide.Selenide.$
 import static com.codeborne.selenide.Selenide.open
 import static com.haulmont.masquerade.Components._$
 
-class BrowseTourUiTest{
+class BrowseTourUiTest {
 
     @Before
     void login() {
         // open URL of an application
         open("http://localhost:8080/app")
+
+        _$(LoginWindow.class).localesSelect
+                .openOptionsPopup()
+                .select('English')
 
         // login to the application
         _$(LoginWindow.class).loginButton.click()
@@ -35,12 +38,11 @@ class BrowseTourUiTest{
 
     @Test
     void checkCancelButton() {
-        def stepContent = $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
+        def stepContent = $(withText("started"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Отмена"))
+        stepContent.find(withText("Cancel"))
                 .click()
 
         $(byClassName(".shepherd-content")).shouldNot(exist)
@@ -48,8 +50,7 @@ class BrowseTourUiTest{
 
     @Test
     void checkCloseIcon() {
-        def stepContent = $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
+        def stepContent = $(withText("started"))
                 .closest(".shepherd-content")
                 .should(exist)
 
@@ -61,86 +62,83 @@ class BrowseTourUiTest{
 
     @Test
     void checkTutorialButton() {
-        def stepContent = $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
+        def stepContent = $(withText("started"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Кнопка создания"))
+        stepContent = $(byText("Create button"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Кнопка редактирования"))
+        stepContent = $(byText("Edit button"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
         _$(ProductBrowser).tourButton.click()
 
-        $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
+        $(withText("started"))
                 .closest(".shepherd-content")
                 .should(exist)
     }
 
     @Test
     void goThroughBrowserTour() {
-        def stepContent = $(withText("Обучение"))
-                .shouldHave(text("Обучение началось!"))
+        def stepContent = $(withText("started"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Кнопка создания"))
+        stepContent = $(byText("Create button"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Кнопка редактирования"))
+        stepContent = $(byText("Edit button"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Кнопка удаления"))
+        stepContent = $(byText("Remove button"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Панель фильтрации"))
+        stepContent = $(byText("Filter Panel"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Назад"))
+        stepContent.find(withText("Back"))
                 .click()
 
-        stepContent = $(byText("Кнопка удаления"))
+        stepContent = $(byText("Remove button"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Далее"))
+        stepContent.find(withText("Next"))
                 .click()
 
-        stepContent = $(byText("Панель фильтрации"))
+        stepContent = $(byText("Filter Panel"))
                 .closest(".shepherd-content")
                 .should(exist)
 
-        stepContent.find(withText("Завершить"))
+        stepContent.find(withText("Finish"))
                 .click()
 
         $(byClassName(".shepherd-content")).shouldNot(exist)
